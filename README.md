@@ -77,7 +77,6 @@ ERCC_ROS/
 
 ### 用户文档
 - [ROS教育机器人使用手册](./car_ws/ROS教育机器人使用手册/ROS教育机器人使用手册.md) - 完整的用户操作指南
-- [ROS工作空间说明](./car_ws/README.md) - ROS系统详细文档
 
 ### 开发者文档
 - [STM32固件开发](./Omni_Car/README.md) - 底层控制系统开发
