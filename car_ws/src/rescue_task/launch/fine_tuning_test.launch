@@ -1,0 +1,19 @@
+<launch>
+  <!-- 可选：复用底盘/相机等通用启动 -->
+  <include file="$(find robot_bringup)/launch/bringup.launch"/>
+
+  <!-- 启动AprilTag检测节点（ROS1 apriltag_ros，话题输出为 /tag_detections） -->
+  <include file="$(find apriltag_detection)/launch/continuous_detection.launch">
+    <arg name="camera_name" value="/usb_cam" />
+    <arg name="image_topic" value="image_rect" />
+  </include>
+
+  <!-- 自动泊车测试节点（使用单Tag） -->
+  <node name="fine_tuning_test" pkg="rescue_task" type="fine_tuning_test" output="screen">
+    <rosparam file="$(find rescue_task)/config/fine_tuning_test_params.yaml" command="load" />
+    <!-- 可在此覆盖参数，例如： -->
+    <!-- <param name="target_tag_id" value="1" /> -->
+    <!-- <param name="stop_distance_z" value="0.30" /> -->
+    <!-- <param name="angular_kp" value="2.0" /> -->
+  </node>
+</launch> 

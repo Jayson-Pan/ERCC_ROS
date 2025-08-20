@@ -1,0 +1,28 @@
+<launch>
+  <!--初始化串口操作-->
+  <arg name="odom_frame_id"  default="odom_combined"/> <!-- 设置里程计话题起点TF坐标 -->
+ 
+  <node pkg="robot_bringup" type="robot_bringup" name="bringup" output="screen" respawn="false">
+    <param name="usart_port_name"    type="string" value="/dev/stm32-device"/>  
+    <param name="serial_baud_rate"   type="int"    value="115200"/>
+    <param name="arduino_port_name"  type="string" value="/dev/arduino-device"/>
+    <param name="arduino_baud_rate"  type="int"    value="115200"/>
+    <param name="odom_frame_id"      type="string" value="$(arg odom_frame_id)"/> 
+    <param name="robot_frame_id"     type="string" value="base_footprint"/> 
+    <param name="gyro_frame_id"      type="string" value="gyro_link"/> 
+
+    <!-- 里程计修正参数，对来自运动底盘的速度信息进行手动修正 -->
+    <param name="odom_x_scale"      type="double" value="1.0"/> 
+    <param name="odom_y_scale"      type="double" value="1.0"/> 
+    <param name="odom_z_scale_positive"      type="double" value="1.0"/> 
+    <param name="odom_z_scale_negative"      type="double" value="1.0"/> 
+
+    <!-- 时间同步参数 -->
+    <param name="imu_time_offset"   type="double" value="0.0"/>
+    <param name="odom_time_offset"  type="double" value="0.0"/>
+  </node>
+  
+</launch>
+
+
+

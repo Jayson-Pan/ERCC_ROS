@@ -1,0 +1,45 @@
+<launch>
+  <arg name="odom_frame_id"  default="odom_combined"/>
+
+  <!--  开启底层单片机的控制节点  -->
+  <include file="$(find robot_bringup)/launch/base_serial.launch">
+    <arg name="odom_frame_id"  value="$(arg odom_frame_id)"/>
+  </include>
+
+  <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
+      <param name="video_device" value="/dev/video0" />
+      <param name="image_width" value="640" />
+      <param name="image_height" value="480" />
+      <param name="pixel_format" value="yuyv" />
+      <param name="camera_frame_id" value="usb_cam" />
+      <param name="io_method" value="mmap"/>
+      <param name="camera_name" value="usb_cam"/>
+      <param name="camera_info_url" value="file://$(find apriltag_detection)/config/ost.yaml"/>
+  </node>
+    
+  <node name="charge_cam_image_proc" pkg="image_proc" type="image_proc" output="screen"  ns="usb_cam" />
+
+  <!-- 启动rosbridge websocket服务，用于与Flutter APP通信 -->
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch">
+    <!-- 可以自定义WebSocket端口 --> 
+    <arg name="port" value="9090" />
+  </include>
+
+  <!-- Web视频服务器节点 -->
+  <node name="web_video_server" pkg="web_video_server" type="web_video_server" output="log">
+    <!-- 端口配置 -->
+    <param name="port" value="8080" />
+    <!-- 绑定所有网络接口 -->
+    <param name="address" value="0.0.0.0" />
+  </node>
+
+  <!-- 加载urdf文件 -->
+  <include file="$(find robot_bringup)/launch/robot_model_visualization.launch" />
+
+
+  <!-- 扩张卡尔曼滤波 发布odom_combined到footprint的TF,即小车定位 -->
+  <include file="$(find robot_bringup)/launch/robot_pose_ekf.launch" />
+
+ </launch>
+
+

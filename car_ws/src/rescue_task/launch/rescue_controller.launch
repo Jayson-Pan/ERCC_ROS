@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- 启动导航节点 -->
+  <include file="$(find robot_bringup)/launch/my_navigation.launch" />
+
+  <!-- 启动AprilTag检测节点 -->
+  <include file="$(find apriltag_detection)/launch/continuous_detection.launch" />
+
+  <!-- 救援控制器节点 -->
+  <node name="rescue_controller" pkg="rescue_task" type="rescue_controller" output="screen">
+    
+    <!-- 从yaml文件加载参数 -->
+    <rosparam file="$(find rescue_task)/config/rescue_controller_params.yaml" command="load" />
+    
+    <!-- 可以在这里覆盖特定参数 -->
+    <!-- 例如：如果需要修改目标Tag ID -->
+    <!-- <param name="target_tag_id" value="2" /> -->
+    
+    <!-- 搜索方向：1=顺时针, -1=逆时针 -->
+    <!-- <param name="search_direction" value="-1" /> -->
+    
+  </node>
+
+</launch>

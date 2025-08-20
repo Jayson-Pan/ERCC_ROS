@@ -1,0 +1,82 @@
+# 救援控制器参数配置文件
+
+# 基本控制参数
+control_rate: 20  # Hz
+
+# 机器人起始位置（需要根据实际情况配置）
+start_pose:
+  position:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  orientation:
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+
+# 目标搜索点列表（需要根据实际地图配置）
+target_poses:
+  - position:
+      x: 2.398
+      y: 0.017
+      z: 0.000
+    orientation:
+      x: 0.000
+      y: 0.000
+      z: 0.002
+      w: 1.000
+  - position:
+      x: 2.513
+      y: 2.706
+      z: 0.000
+    orientation:
+      x: 0.000
+      y: 0.000
+      z: 1.000
+      w: 0.003
+  - position:
+      x: 3.134
+      y: 5.015
+      z: 0.000
+    orientation:
+      x: 0.000
+      y: 0.000
+      z: 0.701
+      w: 0.713
+
+# 搜索参数
+search_angular_speed: 0.1    # 搜索时的角速度 (rad/s)
+search_direction: 1          # 搜索方向: 1=顺时针, -1=逆时针
+search_timeout: 30         # 单点搜索超时时间 (秒)
+
+# AprilTag检测参数
+target_tag_id: 1             # 目标AprilTag ID
+lost_timeout_sec: 1.0        # 目标丢失超时时间 (秒)
+
+# PID控制参数（从fine_tuning_test移植）
+linear_kp: 0.32               # 线速度比例增益
+angular_kp: 1.05              # 角速度比例增益
+max_linear_speed: 0.1        # 最大线速度 (m/s)
+min_linear_speed: 0.05       # 最小线速度 (m/s)
+max_angular_speed: 1.0       # 最大角速度 (rad/s)
+
+# 接近目标参数
+stop_distance_z: 0.138        # 目标停止距离 (m)
+x_tolerance: 0.02            # X方向容差 (m)
+z_tolerance: 0.03            # Z方向容差 (m)
+target_x: 0.014                # 横向对准目标 (m)，0为相机中心
+
+# 误差补偿参数
+x_bias: 0.0                  # X测量偏置 (m)
+z_bias: 0.0                  # Z测量偏置 (m)
+linear_feedforward: 0.001      # 线速度前馈 (m/s)
+angular_feedforward: 0.001     # 角速度前馈 (rad/s)
+
+# 抓取相关参数
+grab_wait_time: 3.0          # 抓取动作等待时间 (秒)
+approach_wait_time: 3.0      # 靠近后等待时间 (秒)
+
+# 最终接近参数
+forward_distance: 0.15       # 最终前进距离 (m)
+final_approach_speed: 0.1    # 最终接近速度 (m/s)

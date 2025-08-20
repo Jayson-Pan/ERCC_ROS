@@ -1,0 +1,16 @@
+<launch>
+  
+  <arg name="odom_frame_id"  default="odom_combined"/>
+
+  <!-- turn on lidar开启雷达  -->
+  <include file="$(find ldlidar_14)/launch/ld14.launch" />
+
+  <!-- 开启gmapping建图算法  -->
+  <include file="$(find robot_bringup)/launch/gmapping.launch" />
+
+  <!-- 开启机器人底层相关节点  -->
+  <include file="$(find robot_bringup)/launch/bringup.launch">
+    <arg name="odom_frame_id"   value="$(arg odom_frame_id)"/>
+  </include>
+
+</launch>

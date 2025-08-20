@@ -1,0 +1,89 @@
+#TebLocalPlanner官方介绍：http://wiki.ros.org/teb_local_planner
+
+TebLocalPlannerROS:
+  odom_topic: odom #订阅的里程计话题
+  map_frame: map #代价地图的TF参考坐标系
+
+  #=== 核心开关：声明机器人为全向模式 ===
+  # 🔑 最重要！此参数告诉TEB您的机器人是全向的 (holonomic)
+  # 必须设置为 true 才能启用侧向平移等动作
+  holonomic_robot: true
+
+  #障碍物参数 - 针对全向轮优化
+  min_obstacle_dist: 0.12 #和障碍物最小距离，适当增加安全间隙（全向轮）
+  include_costmap_obstacles: True #是否将动态障碍物预测为速度模型，
+  costmap_obstacles_behind_robot_dist: 1.0 #限制机器人后方规划时考虑的局部成本地图障碍物
+  obstacle_poses_affected: 25  #障碍物姿态受影响 - 增加以提高全向轮避障精度
+  costmap_converter_plugin: ""
+  costmap_converter_spin_thread: True
+  costmap_converter_rate: 5
+  include_dynamic_obstacles: True
+  dynamic_obstacle_inflation_dist: 0.35 #减小动态障碍物膨胀距离，利用全向轮灵活性
+
+  #目标点误差允许值 - 全向轮精确定位
+  xy_goal_tolerance: 0.10  #机器人到达目标点时位置偏差允许量，单位为：m（按指南降低）
+  yaw_goal_tolerance: 0.05  #机器人到达目标点时角度偏差允许量，单位为：rad（按指南提高精度）
+  free_goal_vel: False    #不允许机器人以最大速度驶向目的地
+
+  #轨道配置参数 - 全向轮优化
+  teb_autosize: True #优化期间允许改变轨迹的时域长度
+  dt_ref: 0.4 #局部路径规划的解析度（增加以提高稳定性）
+  dt_hysteresis: 0.08 #允许改变的时域解析度的浮动范围（减小）
+  global_plan_overwrite_orientation: True #覆盖全局路径中局部路径点的朝向
+  max_global_plan_lookahead_dist: 2.0 #考虑优化的全局计划子集的最大长度（减小以提高响应性）
+  feasibility_check_no_poses: 5 #检测位姿可到达的时间间隔（增加精度）
+
+  #轨迹优化参数 - 全向轮特殊调整
+  no_inner_iterations: 6 #增加内部迭代次数
+  no_outer_iterations: 4
+  optimization_activate: True
+  optimization_verbose: False
+  penalty_epsilon: 0.08 # 减小惩罚项，提高平滑性
+  obstacle_cost_exponent: 4 # 保持标准值
+  weight_max_vel_x: 1.5 #降低X方向速度权重
+  weight_max_vel_y: 1.5 #添加Y方向速度权重（全向轮特有）
+  weight_max_vel_theta: 1.2 #调整角速度权重
+  weight_acc_lim_x: 1.2 #增加X方向加速度约束权重
+  weight_acc_lim_y: 1.2 #添加Y方向加速度约束权重（全向轮特有）
+  weight_acc_lim_theta: 1.2 #增加角加速度约束权重
+  weight_kinematics_nh: 1500 # 增加非完整性约束权重（全向轮稳定性）
+  weight_kinematics_forward_drive: 0.5 #🔑 降低前向驱动权重（全向轮可任意方向）
+  weight_kinematics_turning_radius: 0.1 #大幅降低转弯半径权重（全向轮可原地旋转）
+  weight_optimaltime: 1.0 # 🔑 按指南鼓励TEB寻找时间最优路径（包含斜向平移）
+  weight_shortest_path: 0.5 # 适当增加最短路径权重（全向轮适用）
+  weight_obstacle: 100 # 增加避障权重
+  weight_inflation: 0.2 # 调整膨胀层权重
+  weight_dynamic_obstacle: 15 #增加动态避障权重
+  weight_dynamic_obstacle_inflation: 0.25
+  weight_viapoint: 1
+  weight_adapt_factor: 2
+
+  #不同拓扑中的并行规划 - 全向轮优化
+  enable_homotopy_class_planning: True # 保持开启以应对复杂环境
+  enable_multithreading: True
+  max_number_classes: 3 # 减少类别以降低计算量，提高稳定性
+  selection_cost_hysteresis: 1.0
+  selection_prefer_initial_plan: 0.95 #增加对初始计划的偏好
+  selection_obst_cost_scale: 1.0
+  selection_alternative_time_cost: False
+  roadmap_graph_no_samples: 12 #减少采样数量
+  roadmap_graph_area_width: 4 #减小区域宽度
+  roadmap_graph_area_length_scale: 1.0
+  h_signature_prescaler: 0.5
+  h_signature_threshold: 0.1
+  obstacle_heading_threshold: 0.45
+  switching_blocking_period: 0.0
+  viapoints_all_candidates: True
+  delete_detours_backwards: True
+  max_ratio_detours_duration_best_duration: 3.0
+  visualize_hc_graph: False
+  visualize_with_time_as_z_axis_scale: False
+
+  #恢复行为 - 全向轮振荡抑制
+  shrink_horizon_backup: True
+  shrink_horizon_min_duration: 8 #减少恢复时间
+  oscillation_recovery: True # 保持开启，全向轮容易振荡
+  oscillation_v_eps: 0.08 #降低线速度振荡阈值
+  oscillation_omega_eps: 0.08 #降低角速度振荡阈值
+  oscillation_recovery_min_duration: 8 #减少振荡恢复时间
+  oscillation_filter_duration: 8 #减少振荡滤波时间

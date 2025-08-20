@@ -1,0 +1,18 @@
+robot_radius: 0.11
+inflation_radius: 0.5
+obstacle_range: 1.0
+raytrace_range: 6.0
+observation_sources: scan
+scan:
+    #观测源数据话题名称
+    topic: scan
+    #观测源的TF坐标名称，如果设置为空，会自动从话题数据寻找TF坐标名称
+    #以下三种数据格式支持自动寻找TF坐标名称
+    #sensor_msgs/LaserScan, sensor_msgs/PointCloud, and sensor_msgs/PointCloud2
+    sensor_frame: laser
+    #观测源话题的数据格式，可以为LaserScan、PointCloud、PointCloud2
+    data_type: LaserScan
+    #是否使用该观测源清除自由空间
+    clearing: true
+    #是否使用该观测源添加障碍物
+    marking: true

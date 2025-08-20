@@ -1,0 +1,51 @@
+<launch>
+ <!-- 开启机器人底层相关节点 同时开启导航功能-->
+ <include file="$(find robot_bringup)/launch/bringup.launch"/>
+
+ <!-- turn on lidar开启雷达  -->
+ <include file="$(find ldlidar_14)/launch/ld14.launch" />
+
+ <!-- 设置需要用于导航的地图  -->
+ <arg name="map_file" default="$(find robot_bringup)/map/MAP.yaml"/>
+ <node name="map_server_navi" pkg="map_server" type="map_server" args="$(arg map_file)">
+ </node>
+
+ <!-- 开启用于导航的自适应蒙特卡洛定位amcl-->
+ <!-- <include file="$(find robot_bringup)/launch/amcl.launch" /> -->
+
+ <!-- 使用纯激光雷达定位 -->
+ <node pkg="lidar_reloc" type="lidar_loc_node" name="lidar_loc_node">
+     <param name="base_frame" value="base_footprint" />
+     <param name="odom_frame" value="odom_combined" />
+     <param name="laser_frame" value="laser" />
+     <param name="laser_topic" value="scan" />
+ </node>
+ 
+ <!-- 代价地图自动清除节点 -->
+ <node pkg="lidar_reloc" type="costmap_cleaner_node" name="costmap_cleaner_node">
+ </node>
+
+ <!-- 运行 move_base 节点-->
+<node pkg="move_base" type="move_base" name="move_base">
+    <rosparam file="$(find robot_bringup)/param/pure_pursue_params/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find robot_bringup)/param/pure_pursue_params/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find robot_bringup)/param/pure_pursue_params/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find robot_bringup)/param/pure_pursue_params/local_costmap_params.yaml" command="load" />
+    <param name="base_global_planner" value="global_planner/GlobalPlanner" />
+    <!-- <rosparam file="$(find robot_bringup)/param/pure_pursue_params/base_global_planner_param.yaml" command="load" /> -->
+    <param name="base_local_planner" value="my_planner/MyPlanner" />
+</node>
+
+ <!-- 多点导航> -->
+ <node name='send_mark' pkg="robot_bringup" type="send_mark.py">
+ </node>
+
+ <node name='node_detection' pkg="robot_bringup" type="node_ping.py">
+ 	<param name="node_name" type="string" value="/move_base"/>
+ </node>
+
+</launch>
+
+
+
+

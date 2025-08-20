@@ -1,0 +1,33 @@
+# 自动泊车测试节点参数（fine_tuning_test）
+
+# 控制频率
+control_rate: 20
+
+# 目标Tag
+target_tag_id: 1
+
+# 比例增益
+linear_kp: 0.32          # 距离闭环（前进 linear.x）
+angular_kp: 1.05         # 横向闭环（转向 angular.z），相机x>0需右转 → w为负
+
+# 速度限制
+max_linear_speed: 0.10   # 最大前进速度 (m/s)
+min_linear_speed: 0.05   # 最小前进速度（避免过小不动）(m/s)
+max_angular_speed: 1.00  # 最大角速度 (rad/s)
+
+# 目标/容差（相机坐标系）
+stop_distance_z: 0.138    # 期望停车距离 (m)
+# 若希望最终停在图像中心左/右偏一点，可设置 target_x 为正(右)/负(左)
+target_x: 0.014            # 横向目标 (m)，默认0对准相机中心
+x_tolerance: 0.02        # 横向容差 (m)
+z_tolerance: 0.03        # 距离容差 (m)
+
+# 搜索与丢失处理
+search_angular_speed: 0.0    # 静止等待，不旋转
+lost_timeout_sec: 1.0        # 丢失目标判定超时 (s)
+
+# 误差补偿
+x_bias: 0.0                  # 横向测量偏置 (m)，正值向右
+z_bias: 0.0                  # 距离测量偏置 (m)，正值向前
+linear_feedforward: 0.001      # 线速度前馈 (m/s)，为克服静摩擦可给一个>0的小值
+angular_feedforward: 0.001     # 角速度前馈 (rad/s)，为克服静摩擦可给一个>0的小值 
