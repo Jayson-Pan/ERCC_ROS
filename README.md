@@ -44,7 +44,8 @@ ERCC_ROS/
 │   ├── src/           # ROS功能包源码
 │   └── ROS教育机器人使用手册/  # 详细使用指南
 ├── arm_handler/       # Arduino机械臂控制程序
-├── CLAUDE.md          # 开发者参考文档
+├── 标签打印.docx      # 标签打印模板
+├── tag36h11.zip       # AprilTag标签资源
 └── README.md          # 本文件
 ```
 
@@ -81,8 +82,7 @@ ERCC_ROS/
 ### 开发者文档
 - [STM32固件开发](./Omni_Car/README.md) - 底层控制系统开发
 - [Arduino程序开发](./arm_handler/README.md) - 机械臂控制开发
-- [CLAUDE.md](./CLAUDE.md) - 开发者快速参考
-
+- [ROS程序开发](./car_ws/ROS教育机器人使用手册/ROS教育机器人使用手册.md) - ROS程序开发
 ### 技术参考
 - 系统架构和通信协议详见各组件README
 - 硬件规格和配置参数详见技术文档
