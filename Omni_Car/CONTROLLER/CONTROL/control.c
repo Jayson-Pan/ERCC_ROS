@@ -48,9 +48,13 @@ void Control_task(void *pvParameters)
 
         // Speed closed-loop control to calculate the PWM value of each motor,
         // PWM represents the actual wheel speed
-				MOTOR_A.Motor_Pwm = Incremental_PI_A(MOTOR_A.Encoder,0.2);
-				MOTOR_B.Motor_Pwm = Incremental_PI_B(MOTOR_B.Encoder,0.2);
-				MOTOR_C.Motor_Pwm = Incremental_PI_C(MOTOR_C.Encoder,0.2);
+				MOTOR_A.Motor_Pwm = Incremental_PI_A(MOTOR_A.Encoder,MOTOR_A.Target);
+				MOTOR_B.Motor_Pwm = Incremental_PI_B(MOTOR_B.Encoder,MOTOR_B.Target);
+				MOTOR_C.Motor_Pwm = Incremental_PI_C(MOTOR_C.Encoder,MOTOR_C.Target);
+				
+//				MOTOR_A.Motor_Pwm = Incremental_PI_A(MOTOR_A.Encoder,0.2);
+//				MOTOR_B.Motor_Pwm = Incremental_PI_B(MOTOR_B.Encoder,0.2);
+//				MOTOR_C.Motor_Pwm = Incremental_PI_C(MOTOR_C.Encoder,0.2);
         SetPWM(MOTOR_A.Motor_Pwm, MOTOR_B.Motor_Pwm, MOTOR_C.Motor_Pwm);
 
         // Get battery voltage value

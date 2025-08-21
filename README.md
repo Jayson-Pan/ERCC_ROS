@@ -7,7 +7,7 @@
 | 组件 | 描述 | 详细文档 |
 |------|------|----------|
 | **STM32 底盘控制** | 基于STM32F103VC的全向轮底盘程序，采用FreeRTOS实时系统 | [Omni_Car/README.md](./Omni_Car/README.md) |
-| **ROS 系统** | 完整的ROS工作空间，包含导航、SLAM、传感器驱动等功能包 | [car_ws/README.md](./car_ws/README.md) |
+| **ROS 系统** | 完整的ROS工作空间，包含导航、SLAM、传感器驱动等功能包 | [car_ws/README.md](./car_ws/ROS教育机器人使用手册/ROS教育机器人使用手册.md) |
 | **Arduino 机械臂** | Arduino控制的舵机抓取系统，用于物体抓取操作 | [arm_handler/README.md](./arm_handler/README.md) |
 
 ## 快速开始

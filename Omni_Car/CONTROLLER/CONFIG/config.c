@@ -5,11 +5,10 @@
 u8 Flag_Stop = 1;
 
 //小车三轴目标运动速度，单位：m/s
-//注意Move_Y不起作用，只有对全向移动小车Move_Y才有意义
 float Move_X, Move_Y, Move_Z;
 
 //速度控制PID参数
-float Velocity_KP = 300, Velocity_KI = 300; // Adjusted for new PWM range (19999 vs 7200)
+float Velocity_KP = 1000, Velocity_KI = 300; 
 
 //电机的参数结构体
 Motor_parameter MOTOR_A, MOTOR_B, MOTOR_C;
@@ -34,7 +33,7 @@ void systemInit(void)
     //延时函数初始化
     delay_init();
 
-    //串口1、2初始化，通信波特率115200，可用于与ROS端、arduino端通信
+    //串口1初始化，通信波特率115200，可用于与ROS端通信
     uart1_init(115200);
 
     //ADC pin initialization, used to read the battery voltage and potentiometer gear,

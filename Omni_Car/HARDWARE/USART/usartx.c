@@ -43,10 +43,10 @@ void data_transition(void)
     Send_Data.Sensor_Str.Frame_Tail = FRAME_TAIL;     //Frame_tail //帧尾
 
     //Forward kinematics solution, from the current speed of each wheel to calculate the current speed of the three axis
-    //运动学正解，从各车轮当前速度求出三轴当前速度（旋转180度后）
-    // New model: A wheel at bottom, B wheel at upper-right, C wheel at upper-left
+    //运动学正解，从各车轮当前速度求出三轴当前速度
+    // A wheel at bottom, B wheel at upper-right, C wheel at upper-left
     // X-axis positive direction: from A wheel towards BC wheels
-    // 新模型：A轮在下方，B轮右上方，C轮左上方，X轴正方向从A轮指向BC轮
+    // A轮在下方，B轮右上方，C轮左上方，X轴正方向从A轮指向BC轮
     Send_Data.Sensor_Str.X_speed = ((MOTOR_B.Encoder-MOTOR_C.Encoder)/2/X_PARAMETER)*1000;
 	Send_Data.Sensor_Str.Y_speed = ((-MOTOR_A.Encoder*2+MOTOR_B.Encoder+MOTOR_C.Encoder)/3)*1000; 
 	Send_Data.Sensor_Str.Z_speed = ((MOTOR_A.Encoder+MOTOR_B.Encoder+MOTOR_C.Encoder)/3/Omni_radiaus)*1000;

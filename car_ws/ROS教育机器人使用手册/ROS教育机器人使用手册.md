@@ -12,6 +12,14 @@
 
 如果到手的时候以上功能出现问题，尽快联系我们的工程师进行返修。
 
+Noetic版本机器人：
+
+<img src="./ROS教育机器人使用手册.assets/image-20250821211654831.png" alt="image-20250821211654831" style="zoom:50%;" />
+
+Melodic版本机器人：
+
+<img src="./ROS教育机器人使用手册.assets/image-20250821211719673.png" alt="image-20250821211719673" style="zoom: 50%;" />
+
 
 
 ## SSH连接测试
@@ -22,7 +30,7 @@
 
 机器人到手默认是发出热点的模式，不能连接上网络，当电脑连接上机器人发出的网络后，它们处于同一个局域网下，此时可以使用SSH连接工具进行连接。
 
-Windows平台下推荐以下SSH连接工具，这里以Finalshell为例：：
+Windows平台下推荐以下SSH连接工具，这里以Finalshell为例：
 
 - [FinalShell](https://finalshells.com/)
 
@@ -31,7 +39,7 @@ Windows平台下推荐以下SSH连接工具，这里以Finalshell为例：：
 
 ### 基础连接
 
-首先连接上WIFI热点，格式为QT-pix，比如这里是QT-pi2
+首先连接上WIFI热点，格式为QT-pix，比如这里是QT-pi2，WIFI密码都是==qtsteam@401==
 
 <img src="./ROS教育机器人使用手册.assets/image-20250819155856187.png" alt="image-20250819155856187" style="zoom:67%;" />
 
@@ -768,7 +776,9 @@ final_approach_speed: 0.1    # 最终接近速度 (m/s)
 
 ### STM32接线
 
-以下是STM32与直流电机驱动板TB6612的接线表格：
+#### melodic版本
+
+STM32与直流电机驱动板TB6612的接线表格：
 
 | 轮子编号 | PWM引脚   | 电机引脚1 | 电机引脚2  | 编码器引脚1 | 编码器引脚2 |
 | -------- | --------- | --------- | ---------- | ----------- | ----------- |
@@ -776,10 +786,40 @@ final_approach_speed: 0.1    # 最终接近速度 (m/s)
 | MOTOR_B  | PC8->PWMA | PE4->AIN2 | PE5->AIN1  | PA1->E1B    | PA0->E1A    |
 | MOTOR_C  | PC7->PWMB | PE8->BIN1 | PE10->BIN2 | PE9->E2A    | PE11->E2B   |
 
+MOTORA、MOTORB、MOTORC的顺序同如下的noetic版本
+
 接线不当会出现以下2中问题：
 
 - 电机乱转：调换一下编码器或者电机引脚任意一根线即可解决，例如MOTOR_A调转PD13->E2A即可
 - 转的方向不对：需要同时调换编码器和电机的引脚，例如MOTOR_A调转PD13->E2A，同时PE2->BIN2
+
+
+
+#### noetic版本
+
+<img src="./ROS教育机器人使用手册.assets/image-20250821212411974.png" alt="image-20250821212411974" style="zoom:50%;" />
+
+STM32与驱动板L298N的接线表格如下：
+
+| 轮子编号 | PWM引脚  | 电机引脚1 | 电机引脚2 | 编码器引脚1 | 编码器引脚2 |
+| -------- | -------- | --------- | --------- | ----------- | ----------- |
+| MOTOR_A  | PC9->ENA | PE3->IN1  | PE2->IN2  | PD13->C1    | PD12->C2    |
+| MOTOR_B  | PC8->ENA | PE4->IN2  | PE5->IN1  | PA1->C1     | PA0->C2     |
+| MOTOR_C  | PC7->ENB | PE8->IN4  | PE10->IN3 | PE9->C2     | PE11->C1    |
+
+PH2.0线颜色与直流电机引脚对应关系如下：
+
+M1 -> 红
+
+M2 -> 白
+
+GND-> 黑
+
+VCC->蓝
+
+C1->绿
+
+C2->黄
 
 ### 串口接线
 
@@ -808,6 +848,10 @@ final_approach_speed: 0.1    # 最终接近速度 (m/s)
 请你确保Arduino控制板的电源键被按下，同时对于melodic版本的ROS机器人，需要确保2个18650电池有充足的电量
 
 
+
+## 软件资料开源地址
+
+[[Jayson-Pan/ERCC_ROS](https://github.com/Jayson-Pan/ERCC_ROS)](https://github.com/Jayson-Pan/ERCC_ROS)
 
 
 
